@@ -48,13 +48,13 @@ window.HORTA_CONFIG = {
   // EQUIPE (aparece no rodapé e na aba Sobre)
   // ---------------------------------------------------------------
   EQUIPE: {
-    RESPONSAVEIS: [
+    COORDENADORES: [
       'Prof. Dr. Marcelo Augusto de Souza Costa',
       'Profa. Dra. Michele da Silva Gomes',
     ],
     BOLSISTAS: [
       'Caio Felipe Araujo da Silva',
-      'Keimylly da Aguiar Guidorize',
+      'Kelmilly da Aguiar Guidorize',
       'Maria Eduarda Ramos Santos',
       'Renan Augusto Alves Pereira',
     ],
