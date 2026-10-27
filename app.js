@@ -843,7 +843,7 @@
     $('v-intervalo').textContent = 'A cada ' + (CFG.INTERVALO_MIN >= 60 && CFG.INTERVALO_MIN % 60 === 0
       ? (CFG.INTERVALO_MIN / 60) + ' h' : CFG.INTERVALO_MIN + ' min');
     $('v-fonte').textContent = MODO_DEMO ? 'Dados simulados (modo demonstração)' : 'Planilha do projeto (Google Sheets)';
-    $('rodape-creditos').textContent = resp.length ? 'Responsáveis: ' + resp.join(' e ') + '.' : '';
+    $('rodape-creditos').textContent = resp.length ? 'Coordenadores: ' + resp.join(' e ') + '.' : '';
   }
 
   // ================================================================ tudo
