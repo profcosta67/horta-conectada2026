@@ -10,7 +10,7 @@ window.HORTA_CONFIG = {
   API_URL: 'https://script.google.com/macros/s/AKfycbxVIzBm_93y567y3gAXhwk6cvZPyu5UeweMQsMgYuZ_5As2ckkRKt1-N-l1kl9Bkfw83A/exec',
 
   // Intervalo de leitura do ESP32, em minutos (o mesmo do firmware: 900000UL = 15).
-  INTERVALO_MIN: 15,
+   INTERVALO_MIN: 120,
 
   // Atualização automática do app, em minutos.
   ATUALIZAR_MIN: 5,
