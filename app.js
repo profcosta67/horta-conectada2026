@@ -18,7 +18,8 @@
   // ================================================================ configuração
   const PADRAO = {
     EQUIPE: {
-      RESPONSAVEIS: ['Prof. Dr. Marcelo Augusto de Souza Costa', 'Profa. Dra. Michele da Silva Gomes'],
+      COORDENADORES: ['Prof. Dr. Marcelo Augusto de Souza Costa', 
+                      'Profa. Dra. Michele da Silva Gomes'],
       BOLSISTAS: [],
     },
     API_URL: '',
