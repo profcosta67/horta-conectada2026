@@ -1,6 +1,6 @@
 // Service worker: guarda os arquivos do app para abrir rápido e sem internet.
 // Ao alterar qualquer arquivo do app, aumente o número da versão abaixo.
-const VERSAO = 'horta-v1';
+const VERSAO = 'horta-v2';
 
 const ARQUIVOS = [
   './',

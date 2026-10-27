@@ -335,8 +335,25 @@
 
   // Marcas do eixo do tempo em horas "redondas" do horário de MS (UTC−4)
   const DESLOCAMENTO_MS = -4 * 3600 * 1000;
+  const PASSOS_MIN = [15, 30, 60, 120, 180, 360, 720, 1440];
+  function passoEixo(min, max) {
+    const faixa = max - min;
+    const p = PASSOS_MIN.find((m) => faixa / (m * 60000) <= 6) || 1440;
+    return p * 60000;
+  }
+
+  // Janela do eixo: o período escolhido, mas encolhida até onde há dados
+  // (assim poucas leituras recentes não ficam espremidas na borda do gráfico)
+  function janelaTempo() {
+    const fim = Date.now();
+    const inicioPeriodo = fim - estado.dias * 24 * 3600 * 1000;
+    const recentes = estado.leituras.filter((l) => l.t >= inicioPeriodo);
+    const inicio = recentes.length ? Math.max(inicioPeriodo, recentes[0].t - INTERVALO_MS) : inicioPeriodo;
+    return { min: inicio, max: fim };
+  }
+
   function marcasTempo(scale) {
-    const passo = (estado.dias <= 1 ? 6 : estado.dias <= 2 ? 12 : 24) * 3600 * 1000;
+    const passo = passoEixo(scale.min, scale.max);
     const ticks = [];
     let t = Math.ceil((scale.min + DESLOCAMENTO_MS) / passo) * passo - DESLOCAMENTO_MS;
     for (; t <= scale.max; t += passo) ticks.push({ value: t });
@@ -345,13 +362,14 @@
 
   function opcoesBase(eixos) {
     const grade = cssVar('--linha'), tick = cssVar('--suave');
-    const curto = estado.dias <= 2;
-    const fim = Date.now();
+    const jan = janelaTempo();
+    const curto = passoEixo(jan.min, jan.max) < 24 * 3600 * 1000;
+    const poucos = estado.leituras.filter((l) => l.t >= jan.min).length < 40;
     const scales = {
       x: {
         type: 'linear',
-        min: fim - estado.dias * 24 * 3600 * 1000,
-        max: fim,
+        min: jan.min,
+        max: jan.max,
         grid: { color: grade },
         afterBuildTicks: marcasTempo,
         ticks: {
@@ -377,7 +395,7 @@
       animation: false,
       spanGaps: false,
       interaction: { mode: 'index', intersect: false },
-      elements: { point: { radius: 0, hoverRadius: 4 }, line: { borderWidth: 2, tension: 0.25 } },
+      elements: { point: { radius: poucos ? 3 : 0, hoverRadius: 5 }, line: { borderWidth: 2, tension: 0.25 } },
       plugins: {
         legend: { labels: { color: cssVar('--texto'), boxWidth: 12, boxHeight: 12, usePointStyle: true } },
         tooltip: {
@@ -433,7 +451,7 @@
         ],
       },
       options: opcoesBase({
-        y: { position: 'left', title: { display: true, text: '°C' } },
+        y: { position: 'left', grace: 2, title: { display: true, text: '°C' } },
         y2: { position: 'right', min: 0, max: 100, grid: { drawOnChartArea: false }, title: { display: true, text: '%' } },
       }),
     });
