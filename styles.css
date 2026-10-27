@@ -116,17 +116,135 @@ button { font: inherit; color: inherit; }
   gap: 28px;
   grid-template-columns: minmax(0, 1fr);
 }
+.grade[hidden], .pagina[hidden] { display: none; }
+.coluna-lateral { display: grid; gap: 24px; align-content: start; }
 @media (min-width: 860px) {
   .grade {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-    grid-template-areas: "planta clima" "planta saude" "graficos graficos";
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-areas: "planta lateral" "graficos graficos";
     column-gap: 32px;
   }
   .planta { grid-area: planta; }
-  .clima { grid-area: clima; }
-  .saude { grid-area: saude; }
+  .coluna-lateral { grid-area: lateral; }
   .graficos { grid-area: graficos; }
 }
+
+/* ---------- Abas ---------- */
+.abas {
+  display: flex;
+  background: var(--papel);
+  border-bottom: 1px solid var(--linha);
+}
+.abas a {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 8px 4px 9px;
+  color: var(--suave);
+  text-decoration: none;
+  font-size: .8rem;
+  position: relative;
+  min-height: 56px;
+}
+.abas svg { width: 24px; height: 24px; }
+.abas a[aria-current="page"] { color: var(--folha-clara); font-weight: 700; }
+.abas a[aria-current="page"]::after {
+  content: ""; position: absolute; left: 22%; right: 22%; bottom: 0; height: 3px;
+  background: var(--folha-clara); border-radius: 3px 3px 0 0;
+}
+.selo {
+  position: absolute; top: 5px; left: calc(50% + 6px);
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
+  background: var(--atencao); color: #fff; font-size: .72rem; line-height: 18px; text-align: center;
+}
+.selo[data-nivel="falha"] { background: var(--falha); }
+
+/* No celular, as abas viram a barra inferior do app */
+@media (max-width: 859px) {
+  body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+  .abas {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+    border-bottom: 0; border-top: 1px solid var(--linha);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .abas a[aria-current="page"]::after { top: 0; bottom: auto; border-radius: 0 0 3px 3px; }
+}
+@media (min-width: 860px) {
+  .abas { justify-content: center; gap: 8px; }
+  .abas a { flex: 0 0 auto; flex-direction: row; gap: 8px; padding: 0 18px; font-size: .95rem; min-height: 48px; }
+  .abas svg { width: 20px; height: 20px; }
+  .selo { position: static; }
+  @media (prefers-color-scheme: dark) { .abas a[aria-current="page"] { color: var(--broto); } .abas a[aria-current="page"]::after { background: var(--broto); } }
+}
+@media (max-width: 859px) and (prefers-color-scheme: dark) {
+  .abas a[aria-current="page"] { color: var(--broto); }
+  .abas a[aria-current="page"]::after { background: var(--broto); }
+}
+
+/* ---------- Sombrite ---------- */
+.sombrite {
+  display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: center;
+  border-left: 4px solid var(--linha); padding-left: 12px;
+}
+.sombrite h2 { font-size: .88rem; font-family: var(--fonte-texto); font-weight: 400; color: var(--suave); margin: 0; }
+.sombrite-icone { color: var(--suave); }
+.sombrite-estado { margin: 0; font-family: var(--fonte-titulo); font-weight: 700; font-size: 1.6rem; line-height: 1.15; }
+.sombrite .nota { margin: 4px 0 0; font-size: .82rem; color: var(--suave); }
+.sombrite[data-estado="fechado"] { border-color: var(--folha-clara); }
+.sombrite[data-estado="fechado"] .sombrite-icone { color: var(--folha-clara); }
+.sombrite[data-estado="aberto"] { border-color: var(--sol); }
+.sombrite[data-estado="aberto"] .sombrite-icone { color: var(--sol); }
+.sombrite[data-estado="sem"] .sombrite-estado { color: var(--suave); font-size: 1.25rem; }
+
+.aviso-conferencia {
+  display: block; padding: 12px 14px; border-radius: var(--raio-p);
+  background: #FFF4CC; color: #5C4600; text-decoration: none; font-weight: 700; font-size: .95rem;
+}
+.aviso-conferencia[data-nivel="falha"] { background: #FBE3E6; color: #6B1C26; }
+.aviso-conferencia[hidden] { display: none; }
+
+/* ---------- Páginas (Recomendações e Conferência) ---------- */
+.pagina { max-width: 860px; margin: 0 auto; padding: 22px 16px 8px; }
+.titulo-pagina { font-size: 1.5rem; font-weight: 800; margin-bottom: 6px; }
+.intro { color: var(--suave); margin: 0 0 18px; max-width: 64ch; }
+.subtitulo { font-family: var(--fonte-titulo); font-size: 1.05rem; margin: 28px 0 10px; }
+
+.decisoes { display: grid; gap: 14px; }
+@media (min-width: 700px) { .decisoes { grid-template-columns: 1fr 1fr; } }
+.decisao {
+  background: var(--papel); border: 1px solid var(--linha); border-left: 6px solid var(--ok);
+  border-radius: var(--raio-p); padding: 14px 16px;
+}
+.decisao h3 { margin: 0; font-size: .88rem; font-weight: 400; color: var(--suave); }
+.decisao-texto { margin: 4px 0 8px; font-family: var(--fonte-titulo); font-weight: 700; font-size: 1.2rem; line-height: 1.3; }
+.decisao-motivos { margin: 0; padding-left: 18px; color: var(--suave); font-size: .9rem; }
+.decisao-motivos li { margin: 2px 0; }
+.decisao[data-nivel="acao"] { border-left-color: var(--falha); }
+.decisao[data-nivel="atencao"] { border-left-color: var(--atencao); }
+.decisao[data-nivel="reduzir"] { border-left-color: var(--ceu); }
+.decisao[data-nivel="info"] { border-left-color: var(--linha); }
+
+.tabela-rolagem { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--linha); border-radius: var(--raio-p); background: var(--papel); }
+.tabela { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.tabela th, .tabela td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--linha); vertical-align: top; }
+.tabela thead th { font-size: .8rem; color: var(--suave); font-weight: 700; background: var(--fundo); }
+.tabela tbody tr:last-child th, .tabela tbody tr:last-child td { border-bottom: 0; }
+.tabela tbody th { font-weight: 700; }
+.tabela td.cls { font-weight: 700; white-space: nowrap; }
+.cls-seco { color: #9A6B12; }
+.cls-adequado { color: var(--ok); }
+.cls-encharcado { color: var(--ceu); }
+@media (prefers-color-scheme: dark) { .cls-seco { color: #E3C98F; } }
+.tabela td.nivel { white-space: nowrap; font-weight: 700; }
+.nivel::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 7px; background: var(--ok); }
+.nivel-atencao::before { background: var(--atencao); }
+.nivel-falha::before { background: var(--falha); }
+
+.resumo-operacao { margin: 8px 0 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.resumo-operacao div { border-left: 4px solid var(--folha-clara); padding-left: 12px; }
+.resumo-operacao dt { font-size: .86rem; color: var(--suave); }
+.resumo-operacao dd { margin: 2px 0 0; font-family: var(--fonte-titulo); font-weight: 700; font-size: 1.15rem; }
+
+.nota-graficos { grid-column: 1 / -1; color: var(--suave); font-size: .85rem; margin: 10px 2px 0; }
 
 /* ---------- Planta da horta (destaque) ---------- */
 .planta {
@@ -152,6 +270,8 @@ button { font: inherit; color: inherit; }
 .clima-item.luz { border-color: var(--sol); }
 .clima-item dt { font-size: .88rem; color: var(--suave); }
 .clima-item dd { margin: 0; font-family: var(--fonte-titulo); font-weight: 700; font-size: 2rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.clima-item.luz dd span { font-size: 1.45rem; line-height: 1.25; }
+.clima-item.luz dd small { display: block; margin-left: 0; }
 .clima-item dd small { font-family: var(--fonte-texto); font-weight: 400; font-size: .85rem; color: var(--suave); margin-left: 4px; }
 
 /* ---------- Saúde dos sensores ---------- */

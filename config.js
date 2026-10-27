@@ -1,5 +1,5 @@
 // ============================================================
-// Horta Conectada — configuração do app
+// Horta Conectada 2026 — configuração do app
 // Este é o ÚNICO arquivo que precisa ser editado no dia a dia.
 // ============================================================
 
@@ -9,30 +9,46 @@ window.HORTA_CONFIG = {
   // Enquanto estiver vazia, o app roda em MODO DEMONSTRAÇÃO com dados simulados.
   API_URL: 'https://script.google.com/macros/s/AKfycbxVIzBm_93y567y3gAXhwk6cvZPyu5UeweMQsMgYuZ_5As2ckkRKt1-N-l1kl9Bkfw83A/exec',
 
-  // Intervalo de leitura do ESP32, em minutos (o mesmo do firmware).
+  // Intervalo de leitura do ESP32, em minutos (o mesmo do firmware: 900000UL = 15).
   INTERVALO_MIN: 15,
 
   // Atualização automática do app, em minutos.
   ATUALIZAR_MIN: 5,
 
-  // Nomes exibidos para cada canteiro.
-  CANTEIROS: {
-    A: 'Canteiro A',
-    B: 'Canteiro B',
-  },
+  // Nomes exibidos para cada canteiro e cada sensor.
+  CANTEIROS: { A: 'Canteiro A', B: 'Canteiro B' },
+  NOMES: { solo1: 'Sensor 1', solo2: 'Sensor 2', solo3: 'Sensor 3', solo4: 'Sensor 4' },
 
-  // Calibração das sondas de solo (valor bruto do ADC, 0–4095).
-  // Sonda resistiva: valor ALTO = seco, valor BAIXO = úmido.
-  // Deixe null até concluir a calibração: o app mostra o valor bruto.
-  // Depois preencha, por exemplo: { seco: 4095, molhado: 1450 }
-  CALIBRACAO: {
-    solo1: null,
-    solo2: null,
-    solo3: null,
-    solo4: null,
-  },
+  // ---------------------------------------------------------------
+  // FAIXAS DO SOLO (valor bruto 0–4095; ALTO = seco, BAIXO = úmido)
+  // Base provisória até a calibração. Ajuste conforme o campo.
+  //   acima de SECO_ACIMA ............ Seco
+  //   entre os dois ................... Adequado
+  //   abaixo de ENCHARCADO_ABAIXO ..... Encharcado
+  // ---------------------------------------------------------------
+  SOLO_BRUTO: { SECO_ACIMA: 3500, ENCHARCADO_ABAIXO: 1500 },
 
-  // Faixa ideal de umidade do solo (%), usada só depois da calibração.
-  SOLO_SECO_ABAIXO: 30,
-  SOLO_ENCHARCADO_ACIMA: 85,
+  // Depois da calibração, preencha { seco: <bruto no seco>, molhado: <bruto saturado> }.
+  // Com isso o app passa a usar % e as faixas SOLO_PCT abaixo.
+  CALIBRACAO: { solo1: null, solo2: null, solo3: null, solo4: null },
+  SOLO_PCT: { SECO_ABAIXO: 30, ENCHARCADO_ACIMA: 85 },
+
+  // ---------------------------------------------------------------
+  // FAIXAS DE LUMINOSIDADE (valor bruto do LDR; ALTO = mais luz)
+  //   abaixo de NOITE_ABAIXO ......... Noite
+  //   até NUBLADO_ATE ................ Nublado
+  //   até CEU_LIMPO_ATE .............. Céu limpo
+  //   acima .......................... Ensolarado
+  // ---------------------------------------------------------------
+  LUZ_BRUTO: { NOITE_ABAIXO: 200, NUBLADO_ATE: 1500, CEU_LIMPO_ATE: 3000 },
+
+  // ---------------------------------------------------------------
+  // CRITÉRIOS DAS RECOMENDAÇÕES (dados cruzados) — ajustar com o tempo
+  // ---------------------------------------------------------------
+  CLIMA: {
+    TEMP_QUENTE: 30,        // °C a partir do qual o dia é considerado quente
+    TEMP_FRIO: 20,          // °C abaixo do qual o dia é considerado frio
+    UMID_AR_SECO: 45,       // % abaixo do qual o ar é considerado seco
+    UMID_AR_CHUVA: 90,      // % acima do qual há indício de chuva / tempo fechado
+  },
 };

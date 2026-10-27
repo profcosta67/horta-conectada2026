@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Horta Conectada</title>
-  <meta name="description" content="Monitoramento dos canteiros da Horta Conectada">
+  <title>Horta Conectada 2026</title>
+  <meta name="description" content="Monitoramento dos canteiros da Horta Conectada 2026">
   <meta name="theme-color" content="#1F4D2E">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Horta">
+  <meta name="apple-mobile-web-app-title" content="Horta 2026">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
 <body>
   <header class="topo">
     <div class="topo-linha">
-      <h1>Horta Conectada</h1>
+      <h1>Horta Conectada 2026</h1>
       <button id="btn-atualizar" class="btn-icone" type="button" aria-label="Atualizar dados">
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
       </button>
@@ -31,34 +31,56 @@
     </p>
   </header>
 
+  <nav class="abas" aria-label="Seções do app">
+    <a href="#painel" data-aba="painel">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span>Painel</span>
+    </a>
+    <a href="#recomendacoes" data-aba="recomendacoes">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-4-3-7-6.5-7-10.5C5 6.4 8.1 3 12 3s7 3.4 7 7.5C19 14.5 16 18 12 21zM12 21V10M12 14l-3-2M12 12l3-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Recomendações</span>
+    </a>
+    <a href="#conferencia" data-aba="conferencia">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Conferência</span>
+      <b id="selo-conferencia" class="selo" hidden></b>
+    </a>
+  </nav>
+
   <div id="faixa-demo" class="faixa-demo" hidden>
     Modo demonstração: os valores são simulados. Cole a URL do Apps Script em <code>config.js</code> para ver os dados reais.
   </div>
-  <div id="faixa-offline" class="faixa-offline" hidden>
-    Sem internet. Mostrando as últimas leituras salvas neste aparelho.
-  </div>
+  <div id="faixa-offline" class="faixa-offline" hidden></div>
 
-  <main class="grade">
+  <!-- ===================== PAINEL ===================== -->
+  <main id="aba-painel" class="aba grade" data-aba="painel">
     <section class="planta" aria-labelledby="t-planta">
       <h2 id="t-planta">Umidade do solo agora</h2>
       <div id="planta-svg" class="planta-svg"></div>
-      <p id="planta-nota" class="nota"></p>
     </section>
 
-    <section class="clima" aria-labelledby="t-clima">
-      <h2 id="t-clima">Estação meteorológica</h2>
-      <dl class="clima-lista">
-        <div class="clima-item temp"><dt>Temperatura do ar</dt><dd><span id="v-temp">–</span><small>°C</small></dd></div>
-        <div class="clima-item umid"><dt>Umidade do ar</dt><dd><span id="v-umid">–</span><small>%</small></dd></div>
-        <div class="clima-item luz"><dt>Luminosidade 1</dt><dd><span id="v-lum1">–</span><small>bruto</small></dd></div>
-        <div class="clima-item luz"><dt>Luminosidade 2</dt><dd><span id="v-lum2">–</span><small>bruto</small></dd></div>
-      </dl>
-    </section>
+    <div class="coluna-lateral">
+      <section class="clima" aria-labelledby="t-clima">
+        <h2 id="t-clima">Estação meteorológica</h2>
+        <dl class="clima-lista">
+          <div class="clima-item temp"><dt>Temperatura do ar</dt><dd><span id="v-temp">–</span><small>°C</small></dd></div>
+          <div class="clima-item umid"><dt>Umidade do ar</dt><dd><span id="v-umid">–</span><small>%</small></dd></div>
+          <div class="clima-item luz"><dt>Luminosidade 1</dt><dd><span id="v-lum1">–</span><small id="b-lum1"></small></dd></div>
+          <div class="clima-item luz"><dt>Luminosidade 2</dt><dd><span id="v-lum2">–</span><small id="b-lum2"></small></dd></div>
+        </dl>
+      </section>
 
-    <section class="saude" aria-labelledby="t-saude">
-      <h2 id="t-saude">Situação dos sensores</h2>
-      <ul id="lista-saude" class="lista-saude"></ul>
-    </section>
+      <section class="sombrite" aria-labelledby="t-sombrite">
+        <div id="sombrite-icone" class="sombrite-icone" aria-hidden="true"></div>
+        <div>
+          <h2 id="t-sombrite">Sombrite</h2>
+          <p id="sombrite-estado" class="sombrite-estado">–</p>
+          <p id="sombrite-nota" class="nota"></p>
+        </div>
+      </section>
+
+      <a id="aviso-conferencia" class="aviso-conferencia" href="#conferencia" hidden></a>
+    </div>
 
     <section class="graficos" aria-labelledby="t-graficos">
       <div class="graficos-topo">
@@ -69,10 +91,68 @@
           <button type="button" data-dias="7" aria-pressed="false">7 dias</button>
         </div>
       </div>
-      <figure class="grafico"><figcaption>Solo (sondas)</figcaption><div class="tela"><canvas id="g-solo"></canvas></div></figure>
+      <figure class="grafico"><figcaption>Umidade do solo</figcaption><div class="tela"><canvas id="g-solo"></canvas></div></figure>
       <figure class="grafico"><figcaption>Temperatura e umidade do ar</figcaption><div class="tela"><canvas id="g-clima"></canvas></div></figure>
       <figure class="grafico"><figcaption>Luminosidade</figcaption><div class="tela"><canvas id="g-luz"></canvas></div></figure>
+      <p class="nota nota-graficos">Toque em um ponto do gráfico para ver o valor bruto lido pelo sensor.</p>
     </section>
+  </main>
+
+  <!-- ===================== RECOMENDAÇÕES ===================== -->
+  <main id="aba-recomendacoes" class="aba pagina" data-aba="recomendacoes" hidden>
+    <h2 class="titulo-pagina">Recomendações de manejo</h2>
+    <p class="intro">Sugestões calculadas cruzando a umidade do solo, a temperatura, a umidade do ar e a luminosidade da última leitura. Os critérios são iniciais e serão ajustados ao longo da temporada.</p>
+
+    <div class="decisoes">
+      <article class="decisao" id="dec-irrigacao">
+        <h3>Irrigação</h3>
+        <p class="decisao-texto">–</p>
+        <ul class="decisao-motivos"></ul>
+      </article>
+      <article class="decisao" id="dec-sombrite">
+        <h3>Sombrite</h3>
+        <p class="decisao-texto">–</p>
+        <ul class="decisao-motivos"></ul>
+      </article>
+    </div>
+
+    <h3 class="subtitulo">Condições agora</h3>
+    <div class="tabela-rolagem">
+      <table class="tabela" id="tab-condicoes">
+        <thead><tr><th scope="col">Variável</th><th scope="col">Leitura</th><th scope="col">Classificação</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h3 class="subtitulo">Critérios usados</h3>
+    <div class="tabela-rolagem">
+      <table class="tabela" id="tab-criterios">
+        <thead><tr><th scope="col">Situação</th><th scope="col">Quando</th><th scope="col">Sugestão</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- ===================== CONFERÊNCIA ===================== -->
+  <main id="aba-conferencia" class="aba pagina" data-aba="conferencia" hidden>
+    <h2 class="titulo-pagina">Conferência de operação</h2>
+
+    <dl class="resumo-operacao">
+      <div><dt>Última leitura</dt><dd id="op-ultima">–</dd></div>
+      <div><dt>Leituras nas últimas 24 h</dt><dd id="op-recebidas">–</dd></div>
+      <div><dt>Maior intervalo sem dados (24 h)</dt><dd id="op-lacuna">–</dd></div>
+    </dl>
+
+    <h3 class="subtitulo">Situação dos sensores</h3>
+    <ul id="lista-saude" class="lista-saude"></ul>
+
+    <h3 class="subtitulo">Leitura por sensor</h3>
+    <div class="tabela-rolagem">
+      <table class="tabela" id="tab-sensores">
+        <thead><tr><th scope="col">Sensor</th><th scope="col">Ligação</th><th scope="col">Último valor</th><th scope="col">Situação</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </main>
 
   <footer class="rodape">
