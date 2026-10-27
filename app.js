@@ -832,7 +832,7 @@
   }
 
   function desenharSobre() {
-    const resp = CFG.EQUIPE.RESPONSAVEIS || [];
+    const resp = CFG.EQUIPE.COORDENADORES || CFG.EQUIPE.RESPONSAVEIS || [];
     const bols = CFG.EQUIPE.BOLSISTAS || [];
     preencherLista('lista-responsaveis', resp);
     preencherLista('lista-bolsistas', bols);
