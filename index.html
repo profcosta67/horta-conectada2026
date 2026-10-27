@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Horta Conectada</title>
+  <meta name="description" content="Monitoramento dos canteiros da Horta Conectada">
+  <meta name="theme-color" content="#1F4D2E">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Horta">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-linha">
+      <h1>Horta Conectada</h1>
+      <button id="btn-atualizar" class="btn-icone" type="button" aria-label="Atualizar dados">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
+      </button>
+    </div>
+    <p id="conexao" class="conexao" role="status" aria-live="polite">
+      <span class="pulso" aria-hidden="true"></span>
+      <span id="conexao-texto">Carregando leituras…</span>
+    </p>
+  </header>
+
+  <div id="faixa-demo" class="faixa-demo" hidden>
+    Modo demonstração: os valores são simulados. Cole a URL do Apps Script em <code>config.js</code> para ver os dados reais.
+  </div>
+  <div id="faixa-offline" class="faixa-offline" hidden>
+    Sem internet. Mostrando as últimas leituras salvas neste aparelho.
+  </div>
+
+  <main class="grade">
+    <section class="planta" aria-labelledby="t-planta">
+      <h2 id="t-planta">Umidade do solo agora</h2>
+      <div id="planta-svg" class="planta-svg"></div>
+      <p id="planta-nota" class="nota"></p>
+    </section>
+
+    <section class="clima" aria-labelledby="t-clima">
+      <h2 id="t-clima">Estação meteorológica</h2>
+      <dl class="clima-lista">
+        <div class="clima-item temp"><dt>Temperatura do ar</dt><dd><span id="v-temp">–</span><small>°C</small></dd></div>
+        <div class="clima-item umid"><dt>Umidade do ar</dt><dd><span id="v-umid">–</span><small>%</small></dd></div>
+        <div class="clima-item luz"><dt>Luminosidade 1</dt><dd><span id="v-lum1">–</span><small>bruto</small></dd></div>
+        <div class="clima-item luz"><dt>Luminosidade 2</dt><dd><span id="v-lum2">–</span><small>bruto</small></dd></div>
+      </dl>
+    </section>
+
+    <section class="saude" aria-labelledby="t-saude">
+      <h2 id="t-saude">Situação dos sensores</h2>
+      <ul id="lista-saude" class="lista-saude"></ul>
+    </section>
+
+    <section class="graficos" aria-labelledby="t-graficos">
+      <div class="graficos-topo">
+        <h2 id="t-graficos">Histórico</h2>
+        <div class="periodos" role="group" aria-label="Período do gráfico">
+          <button type="button" data-dias="1" aria-pressed="true">24 h</button>
+          <button type="button" data-dias="2" aria-pressed="false">48 h</button>
+          <button type="button" data-dias="7" aria-pressed="false">7 dias</button>
+        </div>
+      </div>
+      <figure class="grafico"><figcaption>Solo (sondas)</figcaption><div class="tela"><canvas id="g-solo"></canvas></div></figure>
+      <figure class="grafico"><figcaption>Temperatura e umidade do ar</figcaption><div class="tela"><canvas id="g-clima"></canvas></div></figure>
+      <figure class="grafico"><figcaption>Luminosidade</figcaption><div class="tela"><canvas id="g-luz"></canvas></div></figure>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>Projeto PICTEC/FUNDECT, E.E. Profª Vânia Medeiros Lopes, Glória de Dourados (MS)</p>
+    <p id="rodape-fonte"></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

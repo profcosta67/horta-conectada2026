@@ -1,0 +1,204 @@
+:root {
+  --folha: #1F4D2E;
+  --folha-clara: #2E6B42;
+  --broto: #CFE3B8;
+  --fundo: #EDF1E8;
+  --papel: #FFFFFF;
+  --texto: #1B2A1F;
+  --suave: #5A6B5E;
+  --linha: #D5DDD0;
+  --terra: #6B4A2F;
+  --terra-clara: #8A6646;
+  --terra-escura: #4E3521;
+  --sol: #C99400;
+  --beterraba: #B23A48;
+  --ceu: #2F6F9F;
+  --ok: #2E8B57;
+  --atencao: #C99400;
+  --falha: #B23A48;
+  --raio-g: 18px;
+  --raio-p: 10px;
+  --fonte-titulo: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --fonte-texto: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fundo: #121813;
+    --papel: #1A221C;
+    --texto: #E3EADF;
+    --suave: #9AAA9D;
+    --linha: #2C382F;
+    --broto: #9FC58A;
+    --sol: #E0B23A;
+    --beterraba: #E07280;
+    --ceu: #6FA8D6;
+    --ok: #55B57F;
+    --atencao: #E0B23A;
+    --falha: #E07280;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: var(--fonte-texto);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+h1, h2 {
+  font-family: var(--fonte-titulo);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 14px; }
+
+button { font: inherit; color: inherit; }
+
+:focus-visible { outline: 3px solid var(--sol); outline-offset: 2px; border-radius: 6px; }
+
+/* ---------- Topo ---------- */
+.topo {
+  background: var(--folha);
+  color: #F2F7EE;
+  padding: calc(14px + env(safe-area-inset-top)) 16px 16px;
+}
+.topo-linha { display: flex; align-items: center; justify-content: space-between; gap: 12px; max-width: 1080px; margin: 0 auto; }
+.topo h1 { font-size: 1.6rem; font-weight: 800; }
+.btn-icone {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 50%;
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  cursor: pointer;
+}
+.btn-icone:hover { background: rgba(255,255,255,.18); }
+.btn-icone.girando svg { animation: girar .9s linear infinite; }
+@keyframes girar { to { transform: rotate(360deg); } }
+
+.conexao {
+  display: flex; align-items: center; gap: 10px;
+  max-width: 1080px; margin: 10px auto 0;
+  font-size: .98rem;
+  color: #DCE8D4;
+}
+.pulso { width: 12px; height: 12px; border-radius: 50%; background: #9AAA9D; flex: none; }
+.conexao[data-estado="online"] .pulso { background: #7DDB9E; box-shadow: 0 0 0 0 rgba(125,219,158,.6); animation: pulsar 2.4s ease-out infinite; }
+.conexao[data-estado="atrasado"] .pulso { background: #F2C94C; }
+.conexao[data-estado="offline"] .pulso { background: #FF8A8A; }
+.conexao[data-estado="offline"] { color: #FFD9D9; font-weight: 700; }
+@keyframes pulsar { 70% { box-shadow: 0 0 0 10px rgba(125,219,158,0); } 100% { box-shadow: 0 0 0 0 rgba(125,219,158,0); } }
+
+.faixa-demo, .faixa-offline {
+  padding: 10px 16px;
+  font-size: .9rem;
+  text-align: center;
+}
+.faixa-demo { background: #FFF4CC; color: #5C4600; }
+.faixa-offline { background: #FBE3E6; color: #6B1C26; }
+.faixa-demo code { background: rgba(0,0,0,.07); padding: 1px 5px; border-radius: 4px; }
+
+/* ---------- Grade ---------- */
+.grade {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 20px 16px 8px;
+  display: grid;
+  gap: 28px;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 860px) {
+  .grade {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    grid-template-areas: "planta clima" "planta saude" "graficos graficos";
+    column-gap: 32px;
+  }
+  .planta { grid-area: planta; }
+  .clima { grid-area: clima; }
+  .saude { grid-area: saude; }
+  .graficos { grid-area: graficos; }
+}
+
+/* ---------- Planta da horta (destaque) ---------- */
+.planta {
+  background: var(--folha);
+  color: #F2F7EE;
+  border-radius: var(--raio-g);
+  padding: 18px 16px 14px;
+}
+.planta h2 { color: #F2F7EE; }
+.planta-svg svg { display: block; width: 100%; height: auto; }
+.planta .nota { margin: 10px 2px 0; font-size: .88rem; color: #C5D6BC; }
+
+/* ---------- Clima ---------- */
+.clima-lista {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 16px;
+}
+.clima-item { border-left: 4px solid var(--linha); padding-left: 12px; }
+.clima-item.temp { border-color: var(--beterraba); }
+.clima-item.umid { border-color: var(--ceu); }
+.clima-item.luz { border-color: var(--sol); }
+.clima-item dt { font-size: .88rem; color: var(--suave); }
+.clima-item dd { margin: 0; font-family: var(--fonte-titulo); font-weight: 700; font-size: 2rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.clima-item dd small { font-family: var(--fonte-texto); font-weight: 400; font-size: .85rem; color: var(--suave); margin-left: 4px; }
+
+/* ---------- Saúde dos sensores ---------- */
+.lista-saude { list-style: none; margin: 0; padding: 0; }
+.lista-saude li {
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  gap: 4px 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--linha);
+}
+.lista-saude li:last-child { border-bottom: 0; }
+.lista-saude .marca { width: 12px; height: 12px; border-radius: 50%; margin-top: 6px; background: var(--ok); }
+.lista-saude li[data-nivel="atencao"] .marca { background: var(--atencao); }
+.lista-saude li[data-nivel="falha"] .marca { background: var(--falha); }
+.lista-saude li[data-nivel="info"] .marca { background: transparent; border: 2px solid var(--suave); }
+.lista-saude strong { font-weight: 700; }
+.lista-saude .detalhe { grid-column: 2; color: var(--suave); font-size: .9rem; }
+
+/* ---------- Gráficos ---------- */
+.graficos-topo { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.graficos-topo h2 { margin-bottom: 0; }
+.periodos { display: inline-flex; background: var(--papel); border: 1px solid var(--linha); border-radius: 999px; padding: 3px; }
+.periodos button {
+  border: 0; background: transparent; cursor: pointer;
+  padding: 7px 14px; border-radius: 999px; font-size: .92rem; min-height: 36px;
+}
+.periodos button[aria-pressed="true"] { background: var(--folha); color: #F2F7EE; font-weight: 700; }
+
+.grafico {
+  margin: 14px 0 0;
+  background: var(--papel);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-p);
+  padding: 12px 12px 8px;
+}
+.grafico figcaption { font-family: var(--fonte-titulo); font-weight: 700; font-size: .98rem; margin-bottom: 6px; }
+.tela { position: relative; height: 230px; }
+@media (min-width: 860px) {
+  .graficos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 16px; }
+  .graficos-topo { grid-column: 1 / -1; }
+}
+
+/* ---------- Rodapé ---------- */
+.rodape { max-width: 1080px; margin: 0 auto; padding: 16px 16px calc(24px + env(safe-area-inset-bottom)); color: var(--suave); font-size: .82rem; }
+.rodape p { margin: 2px 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
