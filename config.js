@@ -9,8 +9,10 @@ window.HORTA_CONFIG = {
   // Enquanto estiver vazia, o app roda em MODO DEMONSTRAÇÃO com dados simulados.
   API_URL: 'https://script.google.com/macros/s/AKfycbxVIzBm_93y567y3gAXhwk6cvZPyu5UeweMQsMgYuZ_5As2ckkRKt1-N-l1kl9Bkfw83A/exec',
 
-  // Intervalo de leitura do ESP32, em minutos (o mesmo do firmware: 900000UL = 15).
-   INTERVALO_MIN: 120,
+  // Intervalo de leitura do ESP32, em minutos (o MESMO valor do firmware).
+  //   Teste em casa: 7200000UL  → 120
+  //   Campo:          900000UL  → 15
+  INTERVALO_MIN: 120,
 
   // Atualização automática do app, em minutos.
   ATUALIZAR_MIN: 5,
@@ -41,6 +43,22 @@ window.HORTA_CONFIG = {
   //   acima .......................... Ensolarado
   // ---------------------------------------------------------------
   LUZ_BRUTO: { NOITE_ABAIXO: 200, NUBLADO_ATE: 1500, CEU_LIMPO_ATE: 3000 },
+
+  // ---------------------------------------------------------------
+  // EQUIPE (aparece no rodapé e na aba Sobre)
+  // ---------------------------------------------------------------
+  EQUIPE: {
+    RESPONSAVEIS: [
+      'Prof. Dr. Marcelo Augusto de Souza Costa',
+      'Profa. Dra. Michele da Silva Gomes',
+    ],
+    BOLSISTAS: [
+      'Caio Felipe Araujo da Silva',
+      'Keimylly da Aguiar Guidorize',
+      'Maria Eduarda Ramos Santos',
+      'Renan Augusto Alves Pereira',
+    ],
+  },
 
   // ---------------------------------------------------------------
   // CRITÉRIOS DAS RECOMENDAÇÕES (dados cruzados) — ajustar com o tempo

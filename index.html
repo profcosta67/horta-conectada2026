@@ -45,6 +45,10 @@
       <span>Conferência</span>
       <b id="selo-conferencia" class="selo" hidden></b>
     </a>
+    <a href="#sobre" data-aba="sobre">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6M12 7.5v.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span>Sobre</span>
+    </a>
   </nav>
 
   <div id="faixa-demo" class="faixa-demo" hidden>
@@ -155,7 +159,49 @@
     </div>
   </main>
 
+  <!-- ===================== SOBRE ===================== -->
+  <main id="aba-sobre" class="aba pagina" data-aba="sobre" hidden>
+    <div class="sobre-topo">
+      <img src="icons/icon-192.png" alt="" width="72" height="72">
+      <div>
+        <h2 class="titulo-pagina">Horta Conectada</h2>
+        <p class="sobre-subtitulo">Automação sustentável na gestão e uso da água</p>
+        <p class="versao" id="sobre-versao"></p>
+      </div>
+    </div>
+
+    <h3 class="subtitulo">O projeto</h3>
+    <p class="texto-corrido">A Horta Conectada implanta e valida uma horta escolar inteligente, baseada em agricultura de precisão e no uso racional da água. Sensores de umidade do solo, luminosidade, temperatura e umidade do ar, ligados a um microcontrolador ESP32, acompanham os canteiros ao longo da temporada. Um canteiro com irrigação e sombreamento automatizados é comparado a um canteiro de manejo convencional, medindo a produção e o consumo de água de cada um.</p>
+    <p class="texto-corrido">Além dos resultados agronômicos, o projeto aproxima os estudantes da experimentação científica e da programação aplicada ao campo. Ao final, o sistema será validado em uma propriedade rural parceira da agricultura familiar.</p>
+
+    <h3 class="subtitulo">Este aplicativo</h3>
+    <p class="texto-corrido">Plataforma digital do projeto para consulta dos dados, alertas e recomendações de manejo. É gratuita e de código aberto: lê as leituras dos sensores registradas em uma planilha e funciona instalada no celular ou no navegador.</p>
+
+    <h3 class="subtitulo">Equipe</h3>
+    <dl class="equipe">
+      <div><dt>Responsáveis</dt><dd><ul id="lista-responsaveis"></ul></dd></div>
+      <div id="bloco-bolsistas"><dt>Bolsistas</dt><dd><ul id="lista-bolsistas"></ul></dd></div>
+    </dl>
+
+    <h3 class="subtitulo">Realização</h3>
+    <p class="texto-corrido">Escola Estadual Professora Vânia Medeiros Lopes, Glória de Dourados (MS). Projeto apoiado pela Chamada FUNDECT/PICTEC MS.</p>
+
+    <h3 class="subtitulo">Versão</h3>
+    <div class="tabela-rolagem">
+      <table class="tabela" id="tab-versao">
+        <tbody>
+          <tr><th scope="row">Versão</th><td id="v-numero"></td></tr>
+          <tr><th scope="row">Lançamento</th><td id="v-data"></td></tr>
+          <tr><th scope="row">Leitura dos sensores</th><td id="v-intervalo"></td></tr>
+          <tr><th scope="row">Fonte dos dados</th><td id="v-fonte"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota" style="margin-top:10px">Novidades desta versão: painel dos canteiros, estação meteorológica, sombrite, gráficos com faixas, recomendações de irrigação e sombreamento por dados cruzados e conferência de operação dos sensores.</p>
+  </main>
+
   <footer class="rodape">
+    <p class="creditos" id="rodape-creditos"></p>
     <p>Projeto PICTEC/FUNDECT, E.E. Profª Vânia Medeiros Lopes, Glória de Dourados (MS)</p>
     <p id="rodape-fonte"></p>
   </footer>

@@ -244,6 +244,21 @@ button { font: inherit; color: inherit; }
 .resumo-operacao dt { font-size: .86rem; color: var(--suave); }
 .resumo-operacao dd { margin: 2px 0 0; font-family: var(--fonte-titulo); font-weight: 700; font-size: 1.15rem; }
 
+/* ---------- Sobre ---------- */
+.sobre-topo { display: flex; align-items: center; gap: 16px; margin-bottom: 4px; }
+.sobre-topo img { border-radius: 18px; flex: none; box-shadow: 0 0 0 1px var(--linha); }
+.sobre-topo .titulo-pagina { margin: 0; }
+.sobre-subtitulo { margin: 2px 0 0; color: var(--suave); }
+.versao { display: inline-block; margin: 8px 0 0; padding: 2px 10px; border-radius: 999px; background: var(--folha); color: #F2F7EE; font-size: .82rem; font-weight: 700; }
+.texto-corrido { margin: 0 0 12px; max-width: 66ch; }
+.equipe { margin: 0; display: grid; gap: 16px; }
+.equipe dt { font-size: .86rem; color: var(--suave); }
+.equipe dd { margin: 4px 0 0; }
+.equipe ul { margin: 0; padding: 0; list-style: none; }
+.equipe li { font-family: var(--fonte-titulo); font-weight: 700; font-size: 1.05rem; padding: 3px 0; }
+.equipe div[hidden] { display: none; }
+.creditos { color: var(--texto); font-weight: 700; }
+
 .nota-graficos { grid-column: 1 / -1; color: var(--suave); font-size: .85rem; margin: 10px 2px 0; }
 
 /* ---------- Planta da horta (destaque) ---------- */

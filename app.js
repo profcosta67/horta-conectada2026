@@ -11,8 +11,16 @@
 (function () {
   'use strict';
 
+  // ================================================================ versão do app
+  const VERSAO_APP = 'Beta v0.1';
+  const DATA_VERSAO = 'Outubro de 2026';
+
   // ================================================================ configuração
   const PADRAO = {
+    EQUIPE: {
+      RESPONSAVEIS: ['Prof. Dr. Marcelo Augusto de Souza Costa', 'Profa. Dra. Michele da Silva Gomes'],
+      BOLSISTAS: [],
+    },
     API_URL: '',
     INTERVALO_MIN: 15,
     ATUALIZAR_MIN: 5,
@@ -251,7 +259,7 @@
     const validos = recentes.filter((v) => v !== null && v !== undefined);
     const ultimo = validos[validos.length - 1];
     if (ultimo > 5 && ultimo < 4090 && validos.length >= leiturasEm3h() && validos.every((v) => v === validos[0])) {
-      return { nivel: 'atencao', texto: 'O valor não muda há 3 horas. Confira a fiação.' };
+      return { nivel: 'atencao', texto: 'O valor não muda há ' + duracao((validos.length - 1) * INTERVALO_MS) + '. Confira a fiação.' };
     }
     return { nivel: 'ok', texto: 'Funcionando.' };
   }
@@ -401,7 +409,7 @@
   }
 
   function mostrarAba(nome) {
-    if (!['painel', 'recomendacoes', 'conferencia'].includes(nome)) nome = 'painel';
+    if (!['painel', 'recomendacoes', 'conferencia', 'sobre'].includes(nome)) nome = 'painel';
     estado.aba = nome;
     document.querySelectorAll('main.aba').forEach((m) => { m.hidden = m.dataset.aba !== nome; });
     document.querySelectorAll('.abas a').forEach((a) => {
@@ -524,12 +532,25 @@
     return p * 60000;
   }
 
+  // Janela do eixo do tempo:
+  //  - com poucos dados (início de um teste), as leituras ficam CENTRALIZADAS;
+  //  - com mais dados, vai da primeira leitura (com uma pequena margem) até agora,
+  //    limitado ao período escolhido (24 h, 48 h ou 7 dias).
   function janelaTempo() {
-    const fim = Date.now();
-    const inicioPeriodo = fim - estado.dias * 24 * 3600 * 1000;
+    const agora = Date.now();
+    const inicioPeriodo = agora - estado.dias * 24 * 3600 * 1000;
     const recentes = estado.leituras.filter((l) => l.t >= inicioPeriodo);
-    const inicio = recentes.length ? Math.max(inicioPeriodo, recentes[0].t - INTERVALO_MS) : inicioPeriodo;
-    return { min: inicio, max: fim };
+    if (!recentes.length) return { min: inicioPeriodo, max: agora };
+
+    const primeira = recentes[0].t, ultima = recentes[recentes.length - 1].t;
+    const HORA = 3600 * 1000;
+    if (agora - primeira < 3 * HORA) {
+      const centro = (primeira + ultima) / 2;
+      const meia = Math.max(HORA, (ultima - primeira) / 2 + 20 * 60000);
+      return { min: centro - meia, max: centro + meia };
+    }
+    const margem = Math.max(10 * 60000, (agora - primeira) * 0.05);
+    return { min: Math.max(inicioPeriodo, primeira - margem), max: agora };
   }
 
   function marcasTempo(scale) {
@@ -802,8 +823,31 @@
     });
   }
 
+  // ================================================================ desenho: sobre e créditos
+  function preencherLista(id, nomes) {
+    const ul = $(id);
+    ul.innerHTML = '';
+    nomes.forEach((n) => { const li = document.createElement('li'); li.textContent = n; ul.appendChild(li); });
+  }
+
+  function desenharSobre() {
+    const resp = CFG.EQUIPE.RESPONSAVEIS || [];
+    const bols = CFG.EQUIPE.BOLSISTAS || [];
+    preencherLista('lista-responsaveis', resp);
+    preencherLista('lista-bolsistas', bols);
+    $('bloco-bolsistas').hidden = !bols.length;
+    $('sobre-versao').textContent = 'Versão ' + VERSAO_APP;
+    $('v-numero').textContent = VERSAO_APP;
+    $('v-data').textContent = DATA_VERSAO;
+    $('v-intervalo').textContent = 'A cada ' + (CFG.INTERVALO_MIN >= 60 && CFG.INTERVALO_MIN % 60 === 0
+      ? (CFG.INTERVALO_MIN / 60) + ' h' : CFG.INTERVALO_MIN + ' min');
+    $('v-fonte').textContent = MODO_DEMO ? 'Dados simulados (modo demonstração)' : 'Planilha do projeto (Google Sheets)';
+    $('rodape-creditos').textContent = resp.length ? 'Responsáveis: ' + resp.join(' e ') + '.' : '';
+  }
+
   // ================================================================ tudo
   function desenharTudo() {
+    desenharSobre();
     desenharConexao();
     desenharSelo();
     desenharPlanta();
@@ -812,9 +856,9 @@
     desenharRecomendacoes();
     desenharConferencia();
     desenharGraficos();
-    $('rodape-fonte').textContent = MODO_DEMO
+    $('rodape-fonte').textContent = 'Horta Conectada ' + VERSAO_APP + '. ' + (MODO_DEMO
       ? 'Dados simulados para demonstração.'
-      : (estado.recebidoEm ? 'Dados da planilha, atualizados às ' + fmtHora.format(estado.recebidoEm) + '.' : '');
+      : (estado.recebidoEm ? 'Dados da planilha, atualizados às ' + fmtHora.format(estado.recebidoEm) + '.' : ''));
   }
 
   // ================================================================ modo demonstração
